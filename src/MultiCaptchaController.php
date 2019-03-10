@@ -20,7 +20,7 @@ class MultiCaptchaController extends Controller
      * @param string $config
      * @return \Intervention\Image\ImageManager->response
      */
-	public function getCaptcha(Captcha $captcha, Request $request, $config = 'default')
+	public function getCaptcha(MultiCaptcha $captcha, Request $request, $config = 'default')
 	{
 	    if(!$name = $request->input('_ctk'))
         {
@@ -41,7 +41,7 @@ class MultiCaptchaController extends Controller
 	 * @param string $config
 	 * @return \Intervention\Image\ImageManager->response
 	 */
-	public function getCaptchaApi(Captcha $captcha, $config = 'default')
+	public function getCaptchaApi(MultiCaptcha $captcha, $config = 'default')
 	{
 		return $captcha->create($config, true);
 	}
