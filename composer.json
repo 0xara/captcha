@@ -46,7 +46,7 @@
 	"extra": {
 		"laravel": {
 			"providers": [
-				"Mews\\Captcha\\CaptchaServiceProvider"
+				"Mews\\Captcha\\MultiCaptchaServiceProvider"
 			],
 			"aliases": {
 				"Captcha": "Mews\\Captcha\\Facades\\Captcha"
