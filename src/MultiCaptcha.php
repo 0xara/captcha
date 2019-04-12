@@ -80,7 +80,7 @@ class MultiCaptcha extends Captcha
     {
         list($link, $random) = explode('?',parent::src($config));
 
-        return $link . '?_ctk=' . $this->makeToken($name) . '&' . $random;
+        return $link . '?' . config('captcha.token_name','_ctk') . '=' . $this->makeToken($name) . '&' . $random;
     }
 
     /**

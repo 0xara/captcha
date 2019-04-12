@@ -39,7 +39,7 @@ class MultiCaptchaServiceProvider extends ServiceProvider {
 	    // Validator extensions
 	    $this->app['validator']->extend('captcha', function($attribute, $value, $parameters, $validator)
 	    {
-            $name = array_get($validator->getData(), '_ctk', null);
+            $name = array_get($validator->getData(), config('captcha.token_name','_ctk'), null);
 
 		    return captcha_check($value, $name);
 	    });
