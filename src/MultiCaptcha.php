@@ -34,7 +34,7 @@ class MultiCaptcha extends Captcha
     {
         $bag = parent::generate();
 
-        $this->session->put('captchas.' . $this->name, [
+        $this->session->put('captcha-' . $this->name, [
             'sensitive' => $bag['sensitive'],
             'key'       => $bag['key']
         ]);
@@ -51,7 +51,7 @@ class MultiCaptcha extends Captcha
     {
         if(! $name) return false;
 
-        $str = "captchas.{$name}";
+        $str = "captcha-{$name}";
 
         if ( ! $this->session->has($str))
         {
@@ -78,7 +78,9 @@ class MultiCaptcha extends Captcha
 
     public function src($config = null, $name = null)
     {
-        return parent::src($config) . '&_ctk=' . self::makeToken($name);
+        list($link, $random) = explode('?',parent::src($config));
+
+        return $link . '?_ctk=' . $this->makeToken($name) . '&' . $random;
     }
 
     /**
@@ -110,9 +112,17 @@ class MultiCaptcha extends Captcha
      * @param string $name
      * @return string
      */
-    public static function makeToken($name)
+    public function makeToken($name)
     {
-        return md5(request()->fullUrl().($name ?: 'main'));
+        do
+        {
+            $token = md5(request()->fullUrl().$this->str->random(8).($name ?: 'main'));
+
+        } while($this->session->has($token));
+
+        $this->session->put('captcha-'.$token);
+
+        return $token;
     }
 
 }
